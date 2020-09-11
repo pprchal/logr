@@ -1,0 +1,7 @@
+__pycache__
+*.pkl
+*.pdf
+.vs
+.pytest_cache
+project/test/__pycache__/test_Parser.cpython-38.pyc
+.vscode/.ropeproject/objectdb
