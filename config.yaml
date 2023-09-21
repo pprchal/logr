@@ -1,0 +1,23 @@
+http:
+  # bind ip address
+  address: localhost
+  # bind ip port
+  port: 8080
+
+file:
+  # output dir for logs
+  dir: /home/pavels/Log
+  # affiliation field (i.e.: app) => APP1
+  affiliation: app
+  # if not affiliated, where to put logs
+  not_resolved: PAT.log
+  # pattern for affiliated files => /home/pavels/Log/APP1.log
+  pattern: '{{affiliation}}.log'
+
+writers:
+  APP1: [console, file]
+  APP2: [file]
+  APP3: [console]
+  # default, if no rule is matched by affiliation field
+  default: [console, file]
+

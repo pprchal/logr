@@ -1,39 +1,8 @@
 import os
-
 import yaml
 
-
-
 class Config:
-    def __init__(self, yamlDoc):
-        self.props = dict()
-        self.yamlDoc = yamlDoc
-
-    def getProperty(self, keyPath : str):
-        """
-        get cached property
-        """
-        if keyPath in self.props:
-            return self.props[keyPath]
-
-        container = self.yamlDoc
-        partialKey = ''
-        for partialKey in keyPath.split('.'):
-            if partialKey in container:
-                container = container[partialKey]
-            else:
-                container = None
-                break
-
-        self.props.update({keyPath: container})
-        return container
-
-
-    def setProperty(self, keyPath : str, value):
-        """
-        save property
-        """
-        self.props.update({keyPath: value})
+    config = None
 
     @classmethod
     def getLevelDefs(cls):
@@ -44,16 +13,44 @@ class Config:
         }
 
     @classmethod
-    def toDict(cls, inlist):
-        d = dict()
-        if isinstance(inlist, list):
-            for li in inlist:
-                d.update(li)
-        return d
-
+    def getFileDir(cls):
+        return Config.config['file']['dir']
+    
+    @classmethod
+    def getFileNotResolved(cls):
+        return Config.config['file']['not_resolved']
+    
+    @classmethod
+    def getFileAffiliation(cls):
+        return Config.config['file']['affiliation']
 
     @classmethod
-    def fromYaml(cls):
+    def getHttpAddress(cls):
+        return Config.config['http']['address']
+    
+    @classmethod
+    def getHttpPort(cls):
+        return int(Config.config['http']['port'])
+    
+    @classmethod
+    def getWriters(cls):
+        return Config.config['writers']
+
+    @classmethod
+    def getWriterValues(cls, writer):
+        return Config.config['writers'][writer]
+
+    @classmethod
+    def getDistinctWriters(cls):
+        writers = set()
+        for writer in Config.getWriters():
+            for writer in Config.config['writers'][writer]:
+                writers.add(writer)
+
+        return list(writers)
+
+    @classmethod
+    def load(cls):
         fullPath = os.getcwd() + os.sep + 'config.yaml'
         with open(fullPath, encoding="utf8") as f:
-            return Config(yaml.load(f, Loader=yaml.FullLoader))
+            Config.config = yaml.safe_load(f)
