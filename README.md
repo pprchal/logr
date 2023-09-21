@@ -21,7 +21,7 @@ NLog config:
 <target type='WebService'
     name='pat'
     url='http://localhost:8080'
-    protocol='JsonPost'
+    protocol='HttpGet'
     encoding='UTF-8'>
     <!-- MAGIC_FIELD is resolved via affiliation -->
     <parameter name="MAGIC_FIELD" type="System.String" layout="APP1"/>
