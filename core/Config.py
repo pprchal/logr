@@ -43,6 +43,10 @@ class Config:
 
     @classmethod
     def enabled_writers(cls):
+        """
+        Get all writers as referenced by rules
+        :return:
+        """
         writers = set()
         for rule in Config.rules():
             for writer in Config.config['rules'][rule]:

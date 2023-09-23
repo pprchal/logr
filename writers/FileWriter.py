@@ -1,16 +1,26 @@
-from writers.AffiliatedFile import AffiliatedFile
+from core.Formatter import Formatter
+from writers.AffiliatedFileWriter import AffiliatedFileWriter
 from writers.AbstractWriter import AbstractWriter
 from core.LogRecord import LogRecord
 
 
 class FileWriter(AbstractWriter):
+    """
+    Resolving file writer - proxy for file rules
+    Manages many files and dispatch write_record requests by LogRecord.writer
+    """
     def __init__(self, name):
-        self.name = name
+        super().__init__(name)
         self.affiliated_files = []
 
     async def write_record(self, lr: LogRecord):
+        """
+        Write log record to file(s)
+        :param lr: log record
+        :return:
+        """
         affiliated_file = self.get_affiliated_file(lr)
-        line = self.format_line(lr)
+        line = Formatter.format_record(lr) + '\n'
         await affiliated_file.write_line(line)
 
     def get_affiliated_file(self, lr: LogRecord):
@@ -18,10 +28,6 @@ class FileWriter(AbstractWriter):
             if affiliated_file.is_affiliation_match(lr):
                 return affiliated_file
             
-        affiliated_file = AffiliatedFile(lr)
+        affiliated_file = AffiliatedFileWriter(lr)
         self.affiliated_files.append(affiliated_file)
         return affiliated_file
-
-    @staticmethod
-    def format_line(lr: LogRecord):
-        return f"{lr.time}|{lr.level}|{lr.logger}|{lr.message}\n"
