@@ -4,17 +4,25 @@ import asyncio
 from project.core.Config import Config
 from project.core.Writer import Writer
 from project.core.GETFactory import GETFactory
+from project.core.POSTFactory import POSTFactory
 
-async def handle(request):
+async def handle_get(request):
     global writer
     logRecord = GETFactory.build_from_url(request.path_qs)
     writer.write_record(logRecord)
     return web.Response(text="")
 
+async def handle_post(request):
+    global writer
+    data = await request.post()
+    logRecord = POSTFactory.build_from_post(data)
+    writer.write_record(logRecord)
+    return web.Response(text="")
+
 async def run_web_server():
     app = web.Application()
-    app.add_routes([web.get('/', handle),
-                    web.get('/{name}', handle)])
+    app.add_routes([web.get('/', handle_get),
+                    web.post('/', handle_post)])
     runner = web.AppRunner(app)
     await runner.setup()
     site = web.TCPSite(runner, Config.getHttpAddress(), Config.getHttpPort())
