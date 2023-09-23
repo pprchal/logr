@@ -10,9 +10,7 @@ class HttpParser:
         :param json:
         :return:
         """
-        return LogRecord(
-            lambda prop_name: json[prop_name] if prop_name in json else "default"
-        )
+        return LogRecord(json)
 
     @classmethod
     def parse_from_url(cls, url):
@@ -21,9 +19,6 @@ class HttpParser:
         :param url:
         :return:
         """
-        parsed_url = parse.urlparse(url)
-        data = parse.parse_qs(parsed_url.query)
-
-        return LogRecord(
-            lambda prop_name: data[prop_name][0] if prop_name in data else "default"
-        )
+        parsed_url = parse.urlsplit(url)
+        url_data = parse.parse_qsl(parsed_url.query)
+        return LogRecord(dict(url_data))

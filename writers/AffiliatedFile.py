@@ -48,8 +48,5 @@ class AffiliatedFile:
         :param lr:
         :return:
         """
-        # template = Config.File.name_template().replace("{{affiliation}}", lr.writer)
-        # return Config.File.dir() + os.sep + template
         formatted_template = Template.format(template=Config.File.name_template(), provider=lr)
-        # template = Config.File.name_template().replace("{{affiliation}}", lr.writer)
         return Config.File.dir() + os.sep + formatted_template
