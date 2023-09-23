@@ -5,3 +5,9 @@ __pycache__
 .pytest_cache
 project/test/__pycache__/test_Parser.cpython-38.pyc
 .vscode/.ropeproject/objectdb
+/.idea/.gitignore
+/.idea/logr.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
