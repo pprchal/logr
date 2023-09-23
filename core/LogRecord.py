@@ -29,4 +29,7 @@ class LogRecord(object):
         if name == "writer":
             return self.writer
 
+        if name == "affiliation":
+            return self.writer
+
         return self.safe_get(name)
