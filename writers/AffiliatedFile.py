@@ -18,7 +18,7 @@ class AffiliatedFile:
     
     async def write_line(self, line):
         if self.io_file is None:
-            self.io_file = aiofiles.open(file= self.fullPath, mode= "w", encoding="utf8") # open(file= fullPath, mode= "w", encoding="utf8")
+            self.io_file = await aiofiles.open(file=self.fullPath, mode="w", encoding="utf8") # open(file= fullPath, mode= "w", encoding="utf8")
 
-        self.io_file.write(line)
-        self.io_file.flush()
+        await self.io_file.write(line)
+        await self.io_file.flush()

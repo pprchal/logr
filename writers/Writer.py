@@ -28,6 +28,7 @@ class Writer:
         Write log record to all writers
         """
         for writer in self.router[lr.writer]:
+            print(f'[{writer.name}] <== {lr.message}')
             await writer.write_record(lr)
 
     @staticmethod

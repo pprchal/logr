@@ -6,5 +6,5 @@ class NullWriter(AbstractWriter):
     def __init__(self, name):
         self.name = name
 
-    def write_record(self, lr:LogRecord):
+    async def write_record(self, lr:LogRecord):
         return

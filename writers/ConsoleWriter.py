@@ -14,7 +14,7 @@ class ConsoleWriter(AbstractWriter):
             return Config.level_defs()[level]
         return "green"        
 
-    def write_record(self, lr: LogRecord):
+    async def write_record(self, lr: LogRecord):
         cprint(self.format_console(lr), self.logLevel2Color(lr.level))
 
     def format_console(self, lr: LogRecord):
