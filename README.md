@@ -8,7 +8,9 @@ Supported protocols:
 * `HttpGet` - preffered
 * `JsonPost`
 
-Test-it: `curl http://localhost:8080?logger=LOGR&level=DEBUG&message=Hello&time=12:12&app=APP1`
+Test-it:
+* GET `curl http://localhost:8080?logger=LOGR&level=DEBUG&message=Hello&time=12:12&app=APP1`
+* POST `curl -X POST -H "Content-Type: application/json" -d @POST_example http://localhost:8080`
 
 ## Ussage
 ### 1) Start logr

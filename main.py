@@ -14,8 +14,8 @@ async def handle_get(request):
 
 async def handle_post(request):
     global writer
-    data = await request.post()
-    logRecord = POSTFactory.build_from_post(data)
+    jsonData = await request.json()
+    logRecord = POSTFactory.build_from_json(jsonData)
     writer.write_record(logRecord)
     return web.Response(text="")
 

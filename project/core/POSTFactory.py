@@ -3,23 +3,22 @@ from project.core.LogRecord import LogRecord
 
 class POSTFactory:
     @classmethod
-    def build_frombuild_from_post_url(cls, postData):
-        writer = POSTFactory.find_writer_by_affiliation(postData)
-
+    def build_from_json(cls, jsonData):
+        writer = POSTFactory.find_writer_by_affiliation(jsonData)
         return LogRecord(
-            postData['logger'],
-            postData['level'],
-            postData['message'],
-            postData['time'],
+            jsonData['logger'],
+            jsonData['level'],
+            jsonData['message'],
+            jsonData['time'],
             writer
         )
 
     @classmethod
-    def find_writer_by_affiliation(cls, postData):
+    def find_writer_by_affiliation(cls, jsonData):
         affiliationKey = Config.getFileAffiliation()
         affiliationValue = None
-        if affiliationKey in postData.keys():
-            affiliationValue = postData[affiliationKey][0]
+        if affiliationKey in jsonData.keys():
+            affiliationValue = jsonData[affiliationKey][0]
 
         if affiliationValue in Config.getWriters():
             return affiliationValue

@@ -1,0 +1,6 @@
+{
+    "logger": "LOGR",
+    "level": "DEBUG",
+    "message": "Hello, world!",
+    "time": "10:20"
+}
