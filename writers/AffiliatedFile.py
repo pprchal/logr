@@ -1,5 +1,6 @@
 import aiofiles
 import os
+from core.Template import Template
 from core.LogRecord import LogRecord
 from core.Config import Config
 
@@ -8,6 +9,7 @@ class AffiliatedFile:
     """
     Leaf of routing graph. Physical file on disk
     """
+
     def __init__(self, lr: LogRecord):
         self.writer = lr.writer
         if lr.writer == '':
@@ -46,7 +48,8 @@ class AffiliatedFile:
         :param lr:
         :return:
         """
-        template = Config.File.name_template().replace("{{affiliation}}", lr.writer)
-        return Config.File.dir() + os.sep + template
-
-
+        # template = Config.File.name_template().replace("{{affiliation}}", lr.writer)
+        # return Config.File.dir() + os.sep + template
+        formatted_template = Template.format(template=Config.File.name_template(), provider=lr)
+        # template = Config.File.name_template().replace("{{affiliation}}", lr.writer)
+        return Config.File.dir() + os.sep + formatted_template
