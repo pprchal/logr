@@ -1,11 +1,12 @@
 import os
 import yaml
 
+
 class Config:
     config = None
 
     @classmethod
-    def getLevelDefs(cls):
+    def level_defs(cls):
         return {
             'Debug': 'grey',
             'Error': 'red',
@@ -13,44 +14,44 @@ class Config:
         }
 
     @classmethod
-    def getFileDir(cls):
+    def file_dir(cls):
         return Config.config['file']['dir']
     
     @classmethod
-    def getFileNotResolved(cls):
+    def file_not_resolved(cls):
         return Config.config['file']['not_resolved']
     
     @classmethod
-    def getFileAffiliation(cls):
+    def file_affiliation(cls):
         return Config.config['file']['affiliation']
 
     @classmethod
-    def getHttpAddress(cls):
+    def http_address(cls):
         return Config.config['http']['address']
     
     @classmethod
-    def getHttpPort(cls):
+    def http_port(cls):
         return int(Config.config['http']['port'])
     
     @classmethod
-    def getWriters(cls):
-        return Config.config['writers']
+    def rules(cls):
+        return Config.config['rules']
 
     @classmethod
-    def getWriterValues(cls, writer):
-        return Config.config['writers'][writer]
+    def rule_writers(cls, rule):
+        return Config.config['rules'][rule]
 
     @classmethod
-    def getDistinctWriters(cls):
+    def enabled_writers(cls):
         writers = set()
-        for writer in Config.getWriters():
-            for writer in Config.config['writers'][writer]:
+        for rule in Config.rules():
+            for writer in Config.config['rules'][rule]:
                 writers.add(writer)
 
         return list(writers)
 
     @classmethod
     def load(cls):
-        fullPath = os.getcwd() + os.sep + 'config.yaml'
-        with open(fullPath, encoding="utf8") as f:
+        full_path = os.getcwd() + os.sep + 'config.yaml'
+        with open(full_path, encoding="utf8") as f:
             Config.config = yaml.safe_load(f)

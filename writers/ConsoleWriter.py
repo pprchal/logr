@@ -1,6 +1,6 @@
-from project.core.Config import Config
-from project.writers.AbstractWriter import AbstractWriter
-from project.core.LogRecord import LogRecord
+from core.Config import Config
+from writers.AbstractWriter import AbstractWriter
+from core.LogRecord import LogRecord
 from termcolor import cprint
 import os
 
@@ -10,8 +10,8 @@ class ConsoleWriter(AbstractWriter):
         os.system('color')
 
     def logLevel2Color(self, level):
-        if level in Config.getLevelDefs():
-            return Config.getLevelDefs()[level]
+        if level in Config.level_defs():
+            return Config.level_defs()[level]
         return "green"        
 
     def write_record(self, lr: LogRecord):

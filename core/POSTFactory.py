@@ -1,5 +1,5 @@
-from project.core.Config import Config
-from project.core.LogRecord import LogRecord
+from core.Config import Config
+from core.LogRecord import LogRecord
 
 class POSTFactory:
     @classmethod
@@ -15,12 +15,12 @@ class POSTFactory:
 
     @classmethod
     def find_writer_by_affiliation(cls, jsonData):
-        affiliationKey = Config.getFileAffiliation()
+        affiliationKey = Config.file_affiliation()
         affiliationValue = None
         if affiliationKey in jsonData.keys():
             affiliationValue = jsonData[affiliationKey][0]
 
-        if affiliationValue in Config.getWriters():
+        if affiliationValue in Config.rules():
             return affiliationValue
         
         return "default"     

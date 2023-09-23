@@ -1,5 +1,6 @@
 from abc import ABC,abstractmethod
-from project.core.LogRecord import LogRecord
+from core.LogRecord import LogRecord
+
 
 class AbstractWriter(ABC):
     @abstractmethod

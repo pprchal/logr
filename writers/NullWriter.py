@@ -1,5 +1,6 @@
-from project.writers.AbstractWriter import AbstractWriter
-from project.core.LogRecord import LogRecord
+from writers.AbstractWriter import AbstractWriter
+from core.LogRecord import LogRecord
+
 
 class NullWriter(AbstractWriter):
     def __init__(self, name):

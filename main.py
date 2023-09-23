@@ -1,23 +1,25 @@
-import asyncio
 from aiohttp import web
 import asyncio
-from project.core.Config import Config
-from project.core.Writer import Writer
-from project.core.GETFactory import GETFactory
-from project.core.POSTFactory import POSTFactory
+from core.Config import Config
+from writers.Writer import Writer
+from core.GETFactory import GETFactory
+from core.POSTFactory import POSTFactory
+
 
 async def handle_get(request):
     global writer
-    logRecord = GETFactory.build_from_url(request.path_qs)
-    writer.write_record(logRecord)
+    log_record = GETFactory.build_from_url(request.path_qs)
+    await writer.write_record(log_record)
     return web.Response(text="")
+
 
 async def handle_post(request):
     global writer
-    jsonData = await request.json()
-    logRecord = POSTFactory.build_from_json(jsonData)
-    writer.write_record(logRecord)
+    json_data = await request.json()
+    log_record = POSTFactory.build_from_json(json_data)
+    await writer.write_record(log_record)
     return web.Response(text="")
+
 
 async def run_web_server():
     app = web.Application()
@@ -25,8 +27,9 @@ async def run_web_server():
                     web.post('/', handle_post)])
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, Config.getHttpAddress(), Config.getHttpPort())
+    site = web.TCPSite(runner, Config.http_address(), Config.http_port())
     await site.start()
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

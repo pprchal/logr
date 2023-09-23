@@ -14,7 +14,7 @@ file:
   # pattern for affiliated files => /home/pavels/Log/APP1.log
   pattern: '{{affiliation}}.log'
 
-writers:
+rules:
   APP1: [console, file]
   APP2: [file]
   APP3: [console]
