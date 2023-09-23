@@ -11,7 +11,7 @@ class AffiliatedFile:
     def __init__(self, lr: LogRecord):
         self.writer = lr.writer
         if lr.writer == '':
-            self.writer = Config.file_not_resolved()
+            self.writer = Config.File.not_resolved()
 
         self.file_name = self.create_file_name(lr)
         self.io_file = None
@@ -24,7 +24,8 @@ class AffiliatedFile:
         """
         io_file = await self.ensure_io_file()
         await io_file.write(line)
-        await io_file.flush()
+        if Config.File.flush():
+            await io_file.flush()
 
     async def ensure_io_file(self):
         """
@@ -45,7 +46,7 @@ class AffiliatedFile:
         :param lr:
         :return:
         """
-        template = Config.name_template().replace("{{affiliation}}", lr.writer)
-        return Config.file_dir() + os.sep + template
+        template = Config.File.name_template().replace("{{affiliation}}", lr.writer)
+        return Config.File.dir() + os.sep + template
 
 

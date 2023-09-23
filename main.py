@@ -44,7 +44,7 @@ async def run_web_server():
                     web.post('/', handle_post)])
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, Config.http_address(), Config.http_port())
+    site = web.TCPSite(runner, Config.Http.address(), Config.Http.port())
     await site.start()
 
 

@@ -13,33 +13,49 @@ class Config:
             'Info': 'green'
         }
 
-    @classmethod
-    def name_template(cls):
+    class File:
         """
-        Template for affi. file
-        :return: string
+        File section
         """
-        return Config.config['file']['name_template']
+        @classmethod
+        def flush(cls):
+            """
+            Flush after write?
+            :return: string
+            """
+            return True
 
-    @classmethod
-    def file_dir(cls):
-        return Config.config['file']['dir']
-    
-    @classmethod
-    def file_not_resolved(cls):
-        return Config.config['file']['not_resolved']
-    
-    @classmethod
-    def file_affiliation(cls):
-        return Config.config['file']['affiliation']
+        @classmethod
+        def name_template(cls):
+            """
+            Template for affi. file
+            :return: string
+            """
+            return Config.config['file']['name_template']
 
-    @classmethod
-    def http_address(cls):
-        return Config.config['http']['address']
+        @classmethod
+        def dir(cls):
+            return Config.config['file']['dir']
     
-    @classmethod
-    def http_port(cls):
-        return int(Config.config['http']['port'])
+        @classmethod
+        def not_resolved(cls):
+            return Config.config['file']['not_resolved']
+    
+        @classmethod
+        def affiliation(cls):
+            return Config.config['file']['affiliation']
+
+    class Http:
+        """
+        Http config section
+        """
+        @classmethod
+        def address(cls):
+            return Config.config['http']['address']
+
+        @classmethod
+        def port(cls):
+            return int(Config.config['http']['port'])
     
     @classmethod
     def rules(cls):
