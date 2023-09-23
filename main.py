@@ -4,11 +4,6 @@ from core.Config import Config
 from writers.Writer import Writer
 
 if __name__ == '__main__':
-    props = {'a': 'AAA'}
-    key = "ad"
-
-    x = props[key] if key in props else "nene"
-
     # read config
     Config.load()
 
