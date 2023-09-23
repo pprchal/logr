@@ -21,7 +21,7 @@ class ConsoleWriter(AbstractWriter):
         if level in Config.Console.colors():
             return Config.Console.colors()[level]
 
-        return "green"        
+        return "green"
 
     async def write_record(self, lr: LogRecord):
         """
@@ -32,4 +32,3 @@ class ConsoleWriter(AbstractWriter):
         msg = Formatter.format_record(lr)
         color = ConsoleWriter.log_level_2color(lr.level)
         cprint(msg, color)
-

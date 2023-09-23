@@ -1,4 +1,6 @@
 import os
+from itertools import product
+
 import yaml
 
 
@@ -6,64 +8,66 @@ class Config:
     config = None
 
     class Console:
-        @classmethod
-        def colors(cls):
+        @staticmethod
+        def colors():
             return Config.config['console']['colors']
 
     class File:
         """
         File section
         """
-        @classmethod
-        def flush(cls):
+
+        @staticmethod
+        def flush():
             """
             Flush after write?
             :return: string
             """
             return True
 
-        @classmethod
-        def name_template(cls):
+        @staticmethod
+        def name_template():
             """
             Template for affi. file
             :return: string
             """
             return Config.config['file']['name_template']
 
-        @classmethod
-        def dir(cls):
+        @staticmethod
+        def dir():
             return Config.config['file']['dir']
-    
-        @classmethod
-        def not_resolved(cls):
+
+        @staticmethod
+        def not_resolved():
             return Config.config['file']['not_resolved']
-    
-        @classmethod
-        def affiliation(cls):
+
+        @staticmethod
+        def affiliation():
             return Config.config['file']['affiliation']
 
     class Http:
         """
         Http config section
         """
-        @classmethod
-        def address(cls):
+
+        @staticmethod
+        def address():
             return Config.config['http']['address']
 
-        @classmethod
-        def port(cls):
+        @staticmethod
+        def port():
             return int(Config.config['http']['port'])
-    
-    @classmethod
-    def rules(cls):
+
+    @staticmethod
+    def rules():
         return Config.config['rules']
 
-    @classmethod
-    def rule_writers(cls, rule):
+    @staticmethod
+    def rule_writers(rule):
         return Config.config['rules'][rule]
 
-    @classmethod
-    def enabled_writers(cls):
+    @staticmethod
+    def enabled_writers():
         """
         Get all writers as referenced by rules
         :return:
@@ -75,8 +79,8 @@ class Config:
 
         return list(writers)
 
-    @classmethod
-    def load(cls):
+    @staticmethod
+    def load():
         full_path = os.getcwd() + os.sep + 'config.yaml'
         with open(full_path, encoding="utf8") as f:
             Config.config = yaml.safe_load(f)

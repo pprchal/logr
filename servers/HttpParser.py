@@ -3,28 +3,28 @@ from core.Config import Config
 from core.LogRecord import LogRecord
 
 
-class HttpFactory:
+class HttpParser:
     @classmethod
-    def build_from_json(cls, json):
+    def parse_from_json(cls, json):
         """
         Create LogRecord from json object
         :param json:
         :return:
         """
+
         def get_property(prop_name):
             if prop_name in json.keys():
                 return json[prop_name]
 
             return "default"
 
-        writer = cls.find_writer_by_affiliation(get_property)
         return LogRecord(
             property_provider=get_property,
-            writer=writer
+            writer=cls.find_writer_by_affiliation(get_property)
         )
 
     @classmethod
-    def build_from_url(cls, url):
+    def parse_from_url(cls, url):
         """
         Create LogRecord from uri
         :param url:
@@ -39,10 +39,9 @@ class HttpFactory:
 
             return "default"
 
-        writer = cls.find_writer_by_affiliation(get_property)
         return LogRecord(
             property_provider=get_property,
-            writer=writer
+            writer=cls.find_writer_by_affiliation(get_property)
         )
 
     @classmethod
@@ -52,9 +51,3 @@ class HttpFactory:
             return affiliation_property_value
 
         return "default"
-
-
-
-
-
-        
