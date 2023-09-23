@@ -14,6 +14,14 @@ class Config:
         }
 
     @classmethod
+    def name_template(cls):
+        """
+        Template for affi. file
+        :return: string
+        """
+        return Config.config['file']['name_template']
+
+    @classmethod
     def file_dir(cls):
         return Config.config['file']['dir']
     

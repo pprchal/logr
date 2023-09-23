@@ -3,7 +3,7 @@ from core.Formatter import Formatter
 from writers.AbstractWriter import AbstractWriter
 from core.LogRecord import LogRecord
 from termcolor import cprint
-import  os
+import os
 
 
 class ConsoleWriter(AbstractWriter):

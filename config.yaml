@@ -12,7 +12,7 @@ file:
   # if not affiliated, where to put logs
   not_resolved: PAT.log
   # pattern for affiliated files => /home/pavels/Log/APP1.log
-  pattern: '{{affiliation}}.log'
+  name_template: '{{affiliation}}.log'
 
 rules:
   APP1: [console, file]

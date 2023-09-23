@@ -4,7 +4,7 @@ from core.LogRecord import LogRecord
 from core.Config import Config
 
 
-class AffiliatedFileWriter:
+class AffiliatedFile:
     """
     Leaf of routing graph. Physical file on disk
     """
@@ -13,11 +13,8 @@ class AffiliatedFileWriter:
         if lr.writer == '':
             self.writer = Config.file_not_resolved()
 
+        self.file_name = self.create_file_name(lr)
         self.io_file = None
-        self.fullPath = Config.file_dir() + os.sep + lr.writer + ".log"
-
-    def is_affiliation_match(self, lr: LogRecord):
-        return self.writer == lr.writer
 
     async def write_line(self, line):
         """
@@ -37,6 +34,18 @@ class AffiliatedFileWriter:
         :return: aiofile
         """
         if self.io_file is None:
-            self.io_file = await aiofiles.open(file=self.fullPath, mode="w", encoding="utf8")
+            self.io_file = await aiofiles.open(file=self.file_name, mode="w", encoding="utf8")
+
         return self.io_file
+
+    @staticmethod
+    def create_file_name(lr: LogRecord):
+        """
+        Create file name for affiliated file from template
+        :param lr:
+        :return:
+        """
+        template = Config.name_template().replace("{{affiliation}}", lr.writer)
+        return Config.file_dir() + os.sep + template
+
 

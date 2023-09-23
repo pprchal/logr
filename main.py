@@ -2,8 +2,7 @@ from aiohttp import web
 import asyncio
 from core.Config import Config
 from writers.Writer import Writer
-from core.GETFactory import GETFactory
-from core.POSTFactory import POSTFactory
+from core.HttpFactory import HttpFactory
 
 
 async def handle_get(request):
@@ -11,12 +10,11 @@ async def handle_get(request):
     Handles GET request.
     1) create LogRecord structure
     2) write to writer
-    TODO: maybe only store to mem?
     :param request:
     :return:
     """
     global writer
-    log_record = GETFactory.build_from_url(request.path_qs)
+    log_record = HttpFactory.build_from_url(request.path_qs)
     await writer.write_record(log_record)
     return web.Response(text="")
 
@@ -26,13 +24,12 @@ async def handle_post(request):
     Handles POST request.
     1) create LogRecord structure
     2) write to writer
-    TODO: maybe only store to mem?
     :param request:
     :return:
     """
     global writer
     json_data = await request.json()
-    log_record = POSTFactory.build_from_json(json_data)
+    log_record = HttpFactory.build_from_json(json_data)
     await writer.write_record(log_record)
     return web.Response(text="")
 

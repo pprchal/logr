@@ -1,5 +1,5 @@
-from core.LogRecord import LogRecord
 from core.Config import Config
+from core.LogRecord import LogRecord
 from writers.AbstractWriter import AbstractWriter
 from writers.ConsoleWriter import ConsoleWriter
 from writers.FileWriter import FileWriter
@@ -10,7 +10,12 @@ class Writer(AbstractWriter):
     """
     Dispatching writer. The class has its own set of writers
     """
+
     def __init__(self, name):
+        """
+        Constructor - prepare internal structures
+        :param name: name of writer
+        """
         super().__init__(name)
         self.writers = dict()
         self.router = self.build_router()
@@ -31,12 +36,11 @@ class Writer(AbstractWriter):
         """
         router = {}
         for rule in Config.rules():
-            if not rule in router:
-                router[rule] = list()
-
-            for writer_name in Config.rule_writers(rule):
-                writer = self.get_or_create_writer(writer_name)
-                router[rule].append(writer)
+            writers = map(
+                lambda writer_name: self.get_or_create_writer(writer_name),
+                Config.rule_writers(rule)
+            )
+            router[rule] = list(writers)
         return router
 
     def get_or_create_writer(self, writer_name):
@@ -45,10 +49,11 @@ class Writer(AbstractWriter):
         :param writer_name: name of writer (console)
         :return: configured writer
         """
-        if not writer_name in self.writers:
-            self.writers[writer_name] = self.create_writer(writer_name)
+        if writer_name in self.writers:
+            return self.writers[writer_name]
 
-        return self.writers[writer_name]
+        writer = self.writers[writer_name] = self.create_writer(writer_name)
+        return writer
 
     async def write_record(self, lr: LogRecord):
         """
@@ -62,13 +67,11 @@ class Writer(AbstractWriter):
         """
         Factory method - create writers by config
         """
-        if writer == "console":
-            return ConsoleWriter(writer)
-        
-        if writer == "file":
-            return FileWriter(writer)
+        match writer:
+            case "console": return ConsoleWriter(writer)
+            case "file": return FileWriter(writer)
+            case "null": return NullWriter(writer)
 
-        if writer == "null":
-            return NullWriter(writer)
-
+        print(f'Unknown writer: {writer} - resolved to [null]')
+        return NullWriter(writer)
 

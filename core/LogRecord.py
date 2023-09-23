@@ -1,7 +1,7 @@
 class LogRecord(object):
-    def __init__(self, logger, level, message, time, writer):
-        self.logger = logger
-        self.level = level
-        self.message = message
-        self.time = time
+    def __init__(self, property_provider, writer):
+        self.logger = property_provider('logger')
+        self.level = property_provider('level')
+        self.message = property_provider('message')
+        self.time = property_provider('time')
         self.writer = writer
