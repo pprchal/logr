@@ -18,8 +18,9 @@ class ConsoleWriter(AbstractWriter):
         :param level:
         :return:
         """
-        if level in Config.level_defs():
-            return Config.level_defs()[level]
+        if level in Config.Console.colors():
+            return Config.Console.colors()[level]
+
         return "green"        
 
     async def write_record(self, lr: LogRecord):

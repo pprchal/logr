@@ -21,3 +21,8 @@ rules:
   # default, if no rule is matched by affiliation field
   default: [console, file]
 
+console:
+  colors:
+    Debug: grey
+    Error: red
+    Info: green

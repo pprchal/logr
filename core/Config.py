@@ -5,13 +5,10 @@ import yaml
 class Config:
     config = None
 
-    @classmethod
-    def level_defs(cls):
-        return {
-            'Debug': 'grey',
-            'Error': 'red',
-            'Info': 'green'
-        }
+    class Console:
+        @classmethod
+        def colors(cls):
+            return Config.config['console']['colors']
 
     class File:
         """
