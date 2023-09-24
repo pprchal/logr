@@ -1,10 +1,11 @@
 import os
-from itertools import product
-
 import yaml
 
 
 class Config:
+    """
+    Configuration - like interface - static methods
+    """
     config = None
 
     class Console:
@@ -17,6 +18,8 @@ class Config:
             return Config.config['console']['colors']
 
     class File:
+        _affiliation_field_ = ""
+        
         """
         File section
         """
@@ -43,7 +46,7 @@ class Config:
 
         @staticmethod
         def affiliation_field() -> str:
-            return Config.config['file']['affiliation_field']
+            return Config.File._affiliation_field_
 
     class Http:
         """
@@ -67,19 +70,6 @@ class Config:
         return Config.config['rules'][rule]
 
     @staticmethod
-    def enabled_writers():
-        """
-        Get all writers as referenced by rules
-        :return:
-        """
-        writers = set()
-        for rule in Config.rules():
-            for writer in Config.config['rules'][rule]:
-                writers.add(writer)
-
-        return list(writers)
-
-    @staticmethod
     def load():
         """
         Loads config, repair missing values - config is safe.
@@ -89,6 +79,6 @@ class Config:
         # load yml file
         full_path = os.getcwd() + os.sep + 'config.yaml'
         with open(full_path, encoding="utf8") as f:
-            yml = yaml.safe_load(f)
-            # continue only with validated config
-            Config.config = yml
+            Config.config = yaml.safe_load(f)
+
+        Config.File._affiliation_field_ = Config.config['file']['affiliation_field']

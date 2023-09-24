@@ -1,7 +1,7 @@
 class Property:
     @staticmethod
     def int(name: str, default: int, props) -> int:
-        value = Property.get(name, props, "")
+        value = Property.get(name=name, default="", props=props)
         try:
             return default if value == "" else int(value)
         except TypeError:
