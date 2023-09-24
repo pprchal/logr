@@ -1,5 +1,4 @@
 import aiofiles
-import os
 from core.Template import Template
 from core.LogRecord import LogRecord
 from core.Config import Config
@@ -13,7 +12,7 @@ class AffiliatedFile:
     def __init__(self, lr: LogRecord):
         self.writer = lr.writer
         if lr.writer == '':
-            self.writer = Config.File.not_resolved()
+            self.file_name = Template.format(template=Config.File.default_template(), provider=lr)
 
         self.file_name = self.create_file_name(lr)
         self.io_file = None
@@ -48,5 +47,4 @@ class AffiliatedFile:
         :param lr:
         :return:
         """
-        formatted_template = Template.format(template=Config.File.name_template(), provider=lr)
-        return Config.File.dir() + os.sep + formatted_template
+        return Template.format(template=Config.File.path_template(), provider=lr)

@@ -10,6 +10,10 @@ class Config:
     class Console:
         @staticmethod
         def colors():
+            """
+            Console color map
+            :return:
+            """
             return Config.config['console']['colors']
 
     class File:
@@ -18,32 +22,28 @@ class Config:
         """
 
         @staticmethod
-        def flush():
+        def flush() -> bool:
             """
             Flush after write?
-            :return: string
+            :return: bool
             """
             return True
 
         @staticmethod
-        def name_template():
+        def path_template() -> str:
             """
-            Template for affi. file
+            Template for log file
             :return: string
             """
-            return Config.config['file']['name_template']
+            return Config.config['file']['path_template']
 
         @staticmethod
-        def dir():
-            return Config.config['file']['dir']
+        def default_template() -> str:
+            return Config.config['file']['default_template']
 
         @staticmethod
-        def not_resolved():
-            return Config.config['file']['not_resolved']
-
-        @staticmethod
-        def affiliation():
-            return Config.config['file']['affiliation']
+        def affiliation_field() -> str:
+            return Config.config['file']['affiliation_field']
 
     class Http:
         """
@@ -51,11 +51,11 @@ class Config:
         """
 
         @staticmethod
-        def address():
+        def address() -> str:
             return Config.config['http']['address']
 
         @staticmethod
-        def port():
+        def port() -> int:
             return int(Config.config['http']['port'])
 
     @staticmethod
@@ -81,6 +81,14 @@ class Config:
 
     @staticmethod
     def load():
+        """
+        Loads config, repair missing values - config is safe.
+        Can throw exception, if there is unrecoverable error
+        :return:
+        """
+        # load yml file
         full_path = os.getcwd() + os.sep + 'config.yaml'
         with open(full_path, encoding="utf8") as f:
-            Config.config = yaml.safe_load(f)
+            yml = yaml.safe_load(f)
+            # continue only with validated config
+            Config.config = yml

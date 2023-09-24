@@ -5,21 +5,19 @@ http:
   port: 8080
 
 file:
-  # output dir for logs
-  dir: /home/pavels/Log
   # affiliation field (i.e.: app) => APP1
-  affiliation: app
-  # if not affiliated, where to put logs
-  not_resolved: PAT.log
+  affiliation_field: app
+  # if not affiliated, value of affiliation
+  default_template: default
   # pattern for affiliated files => /home/pavels/Log/APP1.log
-  name_template: '{{affiliation}}.log'
+  path_template: '/home/pavels/Log/{{affiliation}}.log'
 
 rules:
-  APP1: [console, file]
-  APP2: [file]
-  APP3: [console]
+  APP1: [ console, file ]
+  APP2: [ file ]
+  APP3: [ console ]
   # default, if no rule is matched by affiliation field
-  default: [console, file]
+  default: [ console, file ]
 
 console:
   colors:
