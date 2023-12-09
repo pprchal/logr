@@ -19,7 +19,7 @@ class Config:
 
     class File:
         _affiliation_field_ = ""
-        
+
         """
         File section
         """
@@ -62,12 +62,12 @@ class Config:
             return int(Config.config['http']['port'])
 
     @staticmethod
-    def rules():
-        return Config.config['rules']
+    def targets():
+        return Config.config['targets']
 
     @staticmethod
-    def rule_writers(rule):
-        return Config.config['rules'][rule]
+    def target_writers(target):
+        return Config.config['targets'][target]
 
     @staticmethod
     def load():

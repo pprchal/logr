@@ -35,10 +35,10 @@ class Writer(AbstractWriter):
         :return: router table APP1 => [console, file]
         """
         router = {}
-        for rule in Config.rules():
+        for rule in Config.targets():
             writers = map(
                 lambda writer_name: self.get_or_create_writer(writer_name),
-                Config.rule_writers(rule)
+                Config.target_writers(rule)
             )
             router[rule] = list(writers)
         return router
@@ -68,10 +68,12 @@ class Writer(AbstractWriter):
         Factory method - create writers by config
         """
         match writer:
-            case "console": return ConsoleWriter(writer)
-            case "file": return FileWriter(writer)
-            case "null": return NullWriter(writer)
+            case "console":
+                return ConsoleWriter(writer)
+            case "file":
+                return FileWriter(writer)
+            case "null":
+                return NullWriter(writer)
 
         print(f'Unknown writer: {writer} - resolved to [null]')
         return NullWriter(writer)
-

@@ -12,7 +12,7 @@ file:
   # pattern for affiliated files => /home/pavels/Log/APP1.log
   path_template: '/home/pavels/Log/{{affiliation}}.log'
 
-rules:
+targets:
   APP1: [ console, file ]
   APP2: [ file ]
   APP3: [ console ]
