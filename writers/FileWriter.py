@@ -1,17 +1,26 @@
+import aiofiles
+from core.Template import Template
 from core.Formatter import Formatter
-from writers.AffiliatedFile import AffiliatedFile
 from writers.AbstractWriter import AbstractWriter
 from core.LogRecord import LogRecord
 
 
 class FileWriter(AbstractWriter):
     """
-    Resolving file writer - proxy for file rules
-    Manages many affiliated_files and dispatch write_record requests by LogRecord.writer
+    File writer
     """
+
     def __init__(self, name):
         super().__init__(name)
-        self.affiliated_files = {}
+        self.io_file = None
+        # TODO: Config.File.default_target()
+
+    async def ensure_io_file(self, lr: LogRecord):
+        if self.io_file is None:
+            file_name = Template.format(template="/home/pavel/Log/test.log", provider=lr)
+            self.io_file = await aiofiles.open(file=file_name, mode="w", encoding="utf8")
+
+        return self.io_file
 
     async def write_record(self, lr: LogRecord):
         """
@@ -19,20 +28,6 @@ class FileWriter(AbstractWriter):
         :param lr: log record
         :return:
         """
-        affiliated_file = self.get_affiliated_file(lr)
         line = Formatter.format_record(lr) + '\n'
-        await affiliated_file.write_line(line)
-
-    def get_affiliated_file(self, lr: LogRecord):
-        """
-        Find affiliated file - by LogRecord.writer
-        :param lr:
-        :return:
-        """
-        if lr.writer in self.affiliated_files:
-            return self.affiliated_files[lr.writer]
-
-        affiliated_file = self.affiliated_files[lr.writer] = AffiliatedFile(lr)
-        return affiliated_file
-
-
+        io_file = await self.ensure_io_file(lr)
+        await io_file.write(line)

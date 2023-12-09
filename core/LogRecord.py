@@ -1,10 +1,7 @@
-from core.AffiliationResolver import AffiliationResolver
-
-
 class LogRecord(object):
-    def __init__(self, properties):
+    def __init__(self, line, properties):
+        self.line = line
         self.properties = properties
-        self.writer = AffiliationResolver.find_writer_by_affiliation(properties)
 
     def safe_get(self, name):
         return self.properties[name] if name in self.properties else ""
@@ -26,10 +23,4 @@ class LogRecord(object):
         return self.safe_get('time')
 
     def get_variable(self, name):
-        if name == "writer":
-            return self.writer
-
-        if name == "affiliation":
-            return self.writer
-
         return self.safe_get(name)

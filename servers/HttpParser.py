@@ -10,7 +10,7 @@ class HttpParser:
         :param json:
         :return:
         """
-        return LogRecord(json)
+        return LogRecord("json-TODO", json)
 
     @classmethod
     def parse_from_url(cls, url):
@@ -21,4 +21,4 @@ class HttpParser:
         """
         parsed_url = parse.urlsplit(url)
         url_data = parse.parse_qsl(parsed_url.query)
-        return LogRecord(dict(url_data))
+        return LogRecord(url, dict(url_data))

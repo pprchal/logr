@@ -5,27 +5,16 @@ http:
   port: 8080
 
 file:
-  # affiliation field (i.e.: app) => APP1
-  affiliation_field: app
-  # if not affiliated, value of affiliation
-  default_target: default
   # pattern for affiliated files => /home/pavels/Log/APP1.log
   file_template: '/home/pavels/Log/{{affiliation}}.log'
 
 rules:
   # field rule is only one - field specifies LogRecord's property
   # logger, level, message, time
-  - { field: app, target: default }
+  - { field: app, is_equal: APP1, targets: console }
   # regular expression rule(s)
   # match target by regular expression
-  - { re: \d+, target: APP1 }
-
-targets:
-  APP1: [ console, file ]
-  APP2: [ file ]
-  APP3: [ console ]
-  # default, if no rule is matched by affiliation field
-  default: [ console, file ]
+  - { re: \d+, targets: file }
 
 console:
   colors:

@@ -18,7 +18,6 @@ class Writer(AbstractWriter):
         """
         super().__init__(name)
         self.writers = dict()
-        self.router = self.build_router()
 
     def print_config(self):
         """
@@ -29,19 +28,13 @@ class Writer(AbstractWriter):
         for writer_name in self.writers:
             print(f'{writer_name} = {self.writers[writer_name]}')
 
-    def build_router(self):
+    async def write_record(self, lr: LogRecord):
         """
-        Create router table
-        :return: router table APP1 => [console, file]
+        Write log record to all writers
         """
-        router = {}
-        for rule in Config.targets():
-            writers = map(
-                lambda writer_name: self.get_or_create_writer(writer_name),
-                Config.target_writers(rule)
-            )
-            router[rule] = list(writers)
-        return router
+        for rule in filter(lambda r: r.is_match(lr), Config.rules):
+            writer = self.get_or_create_writer(rule.targets)
+            await writer.write_record(lr)
 
     def get_or_create_writer(self, writer_name):
         """
@@ -54,13 +47,6 @@ class Writer(AbstractWriter):
 
         writer = self.writers[writer_name] = self.create_writer(writer_name)
         return writer
-
-    async def write_record(self, lr: LogRecord):
-        """
-        Write log record to all writers
-        """
-        for writer in self.router[lr.writer]:
-            await writer.write_record(lr)
 
     @staticmethod
     def create_writer(writer):
