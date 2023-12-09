@@ -12,7 +12,7 @@ class AffiliatedFile:
     def __init__(self, lr: LogRecord):
         self.writer = lr.writer
         if lr.writer == '':
-            self.file_name = Template.format(template=Config.File.default_template(), provider=lr)
+            self.file_name = Template.format(template=Config.File.default_target(), provider=lr)
 
         self.file_name = self.create_file_name(lr)
         self.io_file = None

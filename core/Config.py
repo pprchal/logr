@@ -41,8 +41,8 @@ class Config:
             return Config.config['file']['path_template']
 
         @staticmethod
-        def default_template() -> str:
-            return Config.config['file']['default_template']
+        def default_target() -> str:
+            return Config.config['file']['default_target']
 
         @staticmethod
         def affiliation_field() -> str:

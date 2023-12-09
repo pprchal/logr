@@ -8,7 +8,7 @@ file:
   # affiliation field (i.e.: app) => APP1
   affiliation_field: app
   # if not affiliated, value of affiliation
-  default_template: default
+  default_target: default
   # pattern for affiliated files => /home/pavels/Log/APP1.log
   path_template: '/home/pavels/Log/{{affiliation}}.log'
 
