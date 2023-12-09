@@ -13,7 +13,11 @@ file:
   file_template: '/home/pavels/Log/{{affiliation}}.log'
 
 rules:
-  - { field: 1, target: default }
+  # field rule is only one - field specifies LogRecord's property
+  # logger, level, message, time
+  - { field: app, target: default }
+  # regular expression rule(s)
+  # match target by regular expression
   - { re: \d+, target: APP1 }
 
 targets:

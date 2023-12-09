@@ -18,8 +18,6 @@ class Config:
             return Config.config['console']['colors']
 
     class File:
-        _affiliation_field_ = ""
-
         """
         File section
         """
@@ -44,9 +42,12 @@ class Config:
         def default_target() -> str:
             return Config.config['file']['default_target']
 
+    class Rules:
+        _affiliation_field_ = ""
+
         @staticmethod
         def affiliation_field() -> str:
-            return Config.File._affiliation_field_
+            return Config.Rules._affiliation_field_
 
     class Http:
         """
@@ -83,4 +84,4 @@ class Config:
 
         field_rule = next((rule for rule in Config.config["rules"] if "field" in rule), None)
         if field_rule is not None:
-            Config.File._affiliation_field_ = field_rule["field"]
+            Config.Rules._affiliation_field_ = field_rule["field"]

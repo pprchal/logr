@@ -12,7 +12,7 @@ class AffiliationResolver:
         :param properties: 
         :return: 
         """
-        affiliation = Property.get(name=Config.File.affiliation_field(), default="default", props=properties)
+        affiliation = Property.get(name=Config.Rules.affiliation_field(), default="default", props=properties)
         if affiliation in Config.targets():
             return affiliation
 
