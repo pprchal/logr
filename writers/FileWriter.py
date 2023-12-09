@@ -13,11 +13,10 @@ class FileWriter(AbstractWriter):
     def __init__(self, name):
         super().__init__(name)
         self.io_file = None
-        # TODO: Config.File.default_target()
 
     async def ensure_io_file(self, lr: LogRecord):
         if self.io_file is None:
-            file_name = Template.format(template="/home/pavel/Log/test.log", provider=lr)
+            file_name = Template.format(template=self.name, provider=lr)
             self.io_file = await aiofiles.open(file=file_name, mode="w", encoding="utf8")
 
         return self.io_file

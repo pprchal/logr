@@ -18,19 +18,6 @@ class Config:
             """
             return Config.config['console']['colors']
 
-    class File:
-        """
-        File section
-        """
-
-        @staticmethod
-        def file_template() -> str:
-            """
-            Template for log file
-            :return: string
-            """
-            return Config.config['file']['file_template']
-
     class Http:
         """
         Http config section

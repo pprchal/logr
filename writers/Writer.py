@@ -49,17 +49,14 @@ class Writer(AbstractWriter):
         return writer
 
     @staticmethod
-    def create_writer(writer):
+    def create_writer(writer: str):
         """
         Factory method - create writers by config
         """
         match writer:
             case "console":
                 return ConsoleWriter(writer)
-            case "file":
-                return FileWriter(writer)
             case "null":
                 return NullWriter(writer)
 
-        print(f'Unknown writer: {writer} - resolved to [null]')
-        return NullWriter(writer)
+        return FileWriter(writer)

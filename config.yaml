@@ -4,14 +4,11 @@ http:
   # bind ip port
   port: 8080
 
-file:
-  # pattern for affiliated files => /home/pavels/Log/APP1.log
-  file_template: '/home/pavels/Log/{{affiliation}}.log'
-
 rules:
-  # field rule is only one - field specifies LogRecord's property
+  # field specifies LogRecord's property
   # logger, level, message, time
   - { field: app, is_equal: APP1, targets: console }
+  - { field: app, is_equal: APP2, targets: /home/pavels/Log/APP2.log }
   # regular expression rule(s)
   # match target by regular expression
   - { re: \d+, targets: file }
