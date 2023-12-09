@@ -33,12 +33,12 @@ class Config:
             return True
 
         @staticmethod
-        def path_template() -> str:
+        def file_template() -> str:
             """
             Template for log file
             :return: string
             """
-            return Config.config['file']['path_template']
+            return Config.config['file']['file_template']
 
         @staticmethod
         def default_target() -> str:
@@ -77,8 +77,10 @@ class Config:
         :return:
         """
         # load yml file
-        full_path = os.getcwd() + os.sep + 'config.yaml'
+        full_path = os.getcwd() + os.sep + "config.yaml"
         with open(full_path, encoding="utf8") as f:
             Config.config = yaml.safe_load(f)
 
-        Config.File._affiliation_field_ = Config.config['file']['affiliation_field']
+        field_rule = next((rule for rule in Config.config["rules"] if "field" in rule), None)
+        if field_rule is not None:
+            Config.File._affiliation_field_ = field_rule["field"]

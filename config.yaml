@@ -10,7 +10,11 @@ file:
   # if not affiliated, value of affiliation
   default_target: default
   # pattern for affiliated files => /home/pavels/Log/APP1.log
-  path_template: '/home/pavels/Log/{{affiliation}}.log'
+  file_template: '/home/pavels/Log/{{affiliation}}.log'
+
+rules:
+  - { field: 1, target: default }
+  - { re: \d+, target: APP1 }
 
 targets:
   APP1: [ console, file ]

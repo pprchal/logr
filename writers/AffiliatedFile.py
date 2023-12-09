@@ -47,4 +47,4 @@ class AffiliatedFile:
         :param lr:
         :return:
         """
-        return Template.format(template=Config.File.path_template(), provider=lr)
+        return Template.format(template=Config.File.file_template(), provider=lr)
