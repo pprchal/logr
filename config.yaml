@@ -11,7 +11,7 @@ rules:
   - { field: app, is_equal: APP2, targets: /home/pavels/Log/APP2.log }
   # regular expression rule(s)
   # match target by regular expression
-  - { re: \d+, targets: file }
+  - { re: \d+, targets: /home/pavels/Log/APP1.log }
 
 console:
   colors:

@@ -17,7 +17,11 @@ class Writer(AbstractWriter):
         :param name: name of writer
         """
         super().__init__(name)
-        self.writers = dict()
+        writers = list()
+        for rule in Config.rules:
+            writer = self.create_writer(rule.targets)
+            writers.append(writer)
+        self.writers = [w for w in writers]
 
     def print_config(self):
         """
@@ -25,28 +29,29 @@ class Writer(AbstractWriter):
         :return:
         """
         print("Active writers:")
-        for writer_name in self.writers:
-            print(f'{writer_name} = {self.writers[writer_name]}')
+        for writer in self.writers:
+            print(f"{writer.name}")
 
     async def write_record(self, lr: LogRecord):
         """
         Write log record to all writers
         """
         for rule in filter(lambda r: r.is_match(lr), Config.rules):
-            writer = self.get_or_create_writer(rule.targets)
-            await writer.write_record(lr)
+            writer = self.get_writer(rule.targets)
+            if writer is not None:
+                await writer.write_record(lr)
 
-    def get_or_create_writer(self, writer_name):
+    def get_writer(self, writer_name):
         """
         Create writer - factory method
         :param writer_name: name of writer (console)
         :return: configured writer
         """
-        if writer_name in self.writers:
-            return self.writers[writer_name]
+        for writer in self.writers:
+            if writer.name == writer_name:
+                return writer
 
-        writer = self.writers[writer_name] = self.create_writer(writer_name)
-        return writer
+        return None
 
     @staticmethod
     def create_writer(writer: str):
