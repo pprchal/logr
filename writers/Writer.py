@@ -37,21 +37,16 @@ class Writer(AbstractWriter):
         Write log record to all writers
         """
         for rule in filter(lambda r: r.is_match(lr), Config.rules):
-            writer = self.get_writer(rule.targets)
-            if writer is not None:
+            for writer in self.find_writers(rule.targets):
                 await writer.write_record(lr)
 
-    def get_writer(self, writer_name):
+    def find_writers(self, writer_name):
         """
         Create writer - factory method
         :param writer_name: name of writer (console)
         :return: configured writer
         """
-        for writer in self.writers:
-            if writer.name == writer_name:
-                return writer
-
-        return None
+        return filter(lambda writer: writer.name == writer_name, self.writers)
 
     @staticmethod
     def create_writer(writer: str):
