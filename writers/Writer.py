@@ -19,7 +19,7 @@ class Writer(AbstractWriter):
         super().__init__(name)
         writers = list()
         for rule in Config.rules:
-            writer = self.create_writer(rule.targets)
+            writer = self.create_writer(rule.target)
             writers.append(writer)
         self.writers = [w for w in writers]
 
@@ -37,7 +37,7 @@ class Writer(AbstractWriter):
         Write log record to all writers
         """
         for rule in filter(lambda r: r.is_match(lr), Config.rules):
-            for writer in self.find_writers(rule.targets):
+            for writer in self.find_writers(rule.target):
                 await writer.write_record(lr)
 
     def find_writers(self, writer_name):
@@ -56,7 +56,7 @@ class Writer(AbstractWriter):
         match writer:
             case "console":
                 return ConsoleWriter(writer)
-            case "null":
+            case None:
                 return NullWriter(writer)
 
         return FileWriter(writer)

@@ -12,7 +12,7 @@ class Rule:
         else:
             self.is_re = True
             self.re = re.compile(rule["re"])
-        self.targets = rule["targets"]
+        self.target = rule["target"]
 
     def is_match(self, lr: LogRecord):
         if self.is_re:

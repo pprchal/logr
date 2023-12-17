@@ -13,7 +13,8 @@ Supported protocols:
 Test-it:
 
 * **GET** `curl http://localhost:8080?logger=LOGR&level=DEBUG&message=Hello&time=12:12&app=APP1`
-* POST `curl -X POST -H "Content-Type: application/json" -d @POST_example http://localhost:8080`
+* **POST** `curl -X POST -H "Content-Type: application/json" -d @POST_example http://localhost:8080`
+* **ab** `ab -c5 -n 10000 http://localhost:8080/\?logger\=LOGR\&level\=DEBUG\&message\=Hello\&time\=12:12\&app\=APP1`
 
 ## Usage
 

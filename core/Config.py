@@ -32,12 +32,8 @@ class Config:
             return int(Config.config['http']['port'])
 
     @staticmethod
-    def targets():
-        return Config.config['targets']
-
-    @staticmethod
-    def target_writers(target):
-        return Config.config['targets'][target]
+    def target():
+        return Config.config['target']
 
     @staticmethod
     def load():

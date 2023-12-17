@@ -7,11 +7,11 @@ http:
 rules:
   # field specifies LogRecord's property
   # logger, level, message, time
-  - { field: app, is_equal: APP1, targets: console }
-  - { field: app, is_equal: APP2, targets: /home/pavels/Log/APP2.log }
+  - { field: app, is_equal: APP1, target: null }
+  - { field: app, is_equal: APP2, target: /home/pavels/Log/APP2.log }
   # regular expression rule(s)
   # match target by regular expression
-  - { re: \d+, targets: /home/pavels/Log/APP1.log }
+  - { re: \d+, target: /home/pavels/Log/APP1.log }
 
 console:
   colors:
